@@ -1,6 +1,6 @@
 ### 一个基于 Python Tornado框架创建的Web应用，预设了一些常见的Web安全漏洞，可用于Web攻击实践
 
-![](https://github.com/X-Mallory/Web-Security-examples/raw/master/1.png "web")
+![](https://github.com/X-Mallory/Web-Security-examples/blob/master/1.png "web")
 
 应用中使用了一个SQLite本地数据库，会在程序第一次启动的时候，在应用目录下创建一个sshop.db3文件,用来存放应用数据。
 
