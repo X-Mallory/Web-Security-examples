@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>sshop</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ static_url('css/jumbotron-narrow.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="/shop">商品列表</a></li>
+                <li role="presentation"><a href="/login">登录</a></li>
+                <li role="presentation"><a href="/register">注册</a></li>
+
+            </ul>
+        </nav>
+        <h3 class="text-muted">sshop</h3>
+    </div>
+    {% try %}
+        {% if success %}
+            <div class="alert alert-success alert-dismissable">
+                操作成功。
+            </div>
+        {%end%}
+    {% except %}
+    {% end %}
+
+    {% try %}
+        {% if danger %}
+            <div class="alert alert-danger alert-dismissable">
+                操作失败。
+            </div>
+        {% end %}
+    {% except %}
+    {% end %}
+    {% block body %}
+    {% end %}
+
+</div> <!-- /container -->
+        <div class="row">
+            <form id="_form" action="/pass/reset" method="post" class="col-lg-6 col-lg-offset-3">
+                 {% raw xsrf_form_html() %}
+                <div class="form-group">
+                    <label>用户名：{{username}}</label>
+                </div>
+                <div class="form-group">
+                    <label>您设置的问题是：</label>
+                    <lable>{{question}}</lable>
+                </div>
+                <div class="form-group">
+                    <label>答案：</label>
+                    <input type="text" class="form-control" name="answer" placeholder="" required>
+                </div>
+               <div class="form-group">
+                    <label>新设置密码：</label>
+                    <input type="password" class="form-control" name="password" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label>确认密码：</label>
+                    <input type="password" class="form-control" name="password_confirm" placeholder="" required>
+                </div>
+                 <div>
+                    <label>验证码 ( {{ ques }} )：</label><br/>
+                    <canvas id="vtt_captcha" width="680" height="460" rel="{{ uuid }}"></canvas>
+                    <input type="hidden" id="captcha_x" name="captcha_x" value="">
+                    <input type="hidden" id="captcha_y" name="captcha_y" value="">
+                </div>
+
+                <button class="btn btn-primary pull-right" type="submit">重置密码</button>
+
+            </form>
+            </div>
+        <br/>
+
+{% include "captcha.html" %}
+
+</body>
+</html>

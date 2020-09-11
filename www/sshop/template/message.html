@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="jumbotron commodity-info">
+   <label>买家留言</label>
+   <form action="/Message" method="post">
+      {% raw xsrf_form_html() %}
+
+      <textarea class="buyer-advive" name="msg" rows="4"cols="70"></textarea>
+      <div style="clear:both"></div>
+      <button class="btn btn-lg btn-success">留言</button>
+   </form>
+    <table class="table" style="margin-top:20px">
+            <tr>
+                <th style="text-align: center;">用户</th>
+                <th style="text-align: center;">留言内容</th>
+            </tr>
+            {% for data in messages %}
+            <tr>
+                <td class="commodity-name"><a href="">{{ data[0] }}</a></td>
+                <td style="">{% raw data[1] %}</td>
+            </tr>
+            {% end %}
+        </table>
+</div>
+
+{% end %}

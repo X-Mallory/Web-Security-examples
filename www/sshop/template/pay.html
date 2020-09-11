@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% try %}
+        {% if user and advice%}
+            <h1 class="ciscn">
+                {% if ciscn %}
+                {{ ciscn }}
+                {%end%}
+            </h1>
+            买家{%raw user %}留言：
+            {% raw advice %}
+        {% end %}
+    {% except %}
+    {% end %}
+        <div class="jumbotron">
+           <h1>结账</h1>
+        </div>
+{% end %}

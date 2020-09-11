@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="jumbotron user-info">
+    <h1 class="user-username">{% raw user.username %}</h1>
+    <h3 class="user-email">邮箱地址：{{ user.mail }}</h3>
+    <h3 class="user-integral">剩余积分：{{ user.integral }}</h3>
+</div>
+<script type="text/javascript">
+
+
+window.onload=function(){
+  var ss={{user.username}}
+  var flag={{ flag }}
+
+
+  if( ss == 'Jack_Ma')
+  {
+  alert("代码审计对一个安全员是很重要的！");
+  }
+  else
+  {
+
+
+  }
+}
+</script>
+
+{% end %}

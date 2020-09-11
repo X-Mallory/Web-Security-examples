@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<b id="serverStartTime" style="display: none" >{{ startTime }}</b>
+<b id="toSaleTime" style="display: none">{{ toSale }}</b>
+<b id="saleTime" style="display: none">{{saleTime }}</b>
+<script>
+    var serverTime=parseInt(serverStartTime.innerHTML.toString()); //服务器启动时间戳变为整形数
+    var toSale=parseInt(toSaleTime.innerHTML.toString());   //服务器端设定的秒杀开始倒计时
+    var longTime=parseInt(saleTime.innerHTML.toString());
+    var currentTime=parseInt(new Date().getTime()/1000);    //客户端接收到这个html界面的时间戳
+    var times=parseInt((currentTime-serverTime)/(toSale+longTime));
+    var remainNumber=currentTime-serverTime-(toSale+longTime)*times;
+    times++;
+    if (remainNumber>toSale)
+    {
+       location.href='/sale';
+    }
+    else {
+        var countNumber=toSale-remainNumber;
+        document.write("<h1 id='saleTitle' style='display: inline'>"+"第"+times+"次秒杀即将开始:"+"</h1>");
+        document.write("<h1 id='countDown' style='display: inline'>"+countNumber+"</h1>");
+        var interval=setInterval(function(){
+            if(countNumber==0){
+                clearInterval(interval);
+	            location="/sale"
+            }
+            countDown.innerHTML=countNumber--;
+        },1000);
+    }
+</script>
+<div class="row marketing">
+
+    <div class="commodity-list">
+        <table class="table">
+            <tr>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>操作</th>
+            </tr>
+            {% for data in commoditys %}
+            <tr>
+                <td class="commodity-name"><a href="/info/{{ data.id }}">{{ data.name }}</a></td>
+                <td>{{ data.price }}</td>
+                <td>
+                    <a href="javascript:;" onclick="document.getElementById('{{ data.name }}-{{ data.id }}').submit();">加入购物车</a>
+                    <form action="/shopcar/add" method="post" id="{{ data.name }}-{{ data.id }}">
+                         {% raw xsrf_form_html() %}
+                        <input type="hidden" name="id" value="{{ data.id }}">
+                        <input type="hidden" name="price" value="{{ data.price }}">
+                    </form>
+                </td>
+            </tr>
+            {% end %}
+        </table>
+
+    </div>
+    <div class="pagination col-lg-12">
+        {% if preview-1 >= 0 %}
+        <a href="?page={{ preview }}">上一页</a>
+        {% end %}
+        {% if len(commoditys) < limit or not next %}
+        {% else %}
+        <a href="?page={{ next }}" class="pull-right">下一页</a>
+        {% end %}
+    </div>
+</div>
+<!--assets.key-->
+<!--权限越高，责任越大，时刻不要忘记自己的责任，to admin-->
+<!--set_secure_cookie-->
+{% end %}
